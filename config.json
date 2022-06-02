@@ -1,0 +1,39 @@
+{
+    "APIEndpoints": [
+        {
+            "ID": "DEFAULT",
+            "Address": "http://localhost:7473/"
+        }
+    ],
+    "ApplicationID": "PLAINKV-SERVICE",
+    "CookieDomain": "localhost",
+    "HostPort" : 7473,
+    "JWTSecret": "DMcHXL9BwqKdGwSXYKm6WvMG",
+    "DefaultDatabaseID": "DEFAULT",
+    "Databases" : [
+        {
+            "ID" : "DEFAULT",
+            "ConnectionString" : "sample:password101@tcp(192.168.1.129)/kvdb",
+            "DriverName" : "mysql",
+            "StorageType": "SERVER",
+            "SequenceGenerator" : {
+                "UpsertQuery" : "",
+                "ResultQuery" : "DECLARE @surrogatekey INT; EXEC ssh_getnextnumber '{SequenceName}', @surrogatekey OUTPUT; SELECT @surrogatekey;",
+                "NamePlaceHolder": "{SequenceName}"
+            },
+            "UTCDateFunction": "UTC_TIMESTAMP()",
+            "DateFunction": "NOW()",
+            "ParameterPlaceholder": "?",
+            "ParameterInSequence": false
+        }
+    ],
+    "Flags": [
+        {"key": "usecache", "value": "1"}
+    ],
+    "Cache": {
+		"Provider": "redis",
+		"Address": "192.168.1.37:6379",
+		"Password": "",
+		"DB": 7
+	}
+}
