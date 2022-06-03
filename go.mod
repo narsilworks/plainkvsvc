@@ -26,7 +26,7 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/magefile/mage v1.13.0 // indirect
-	github.com/narsilworks/plainkv v0.0.0-20220602091141-0702ee9f6f8d
+	github.com/narsilworks/plainkv v0.0.0-20220603024222-6701ba684c51
 	github.com/nats-io/nats.go v1.16.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect

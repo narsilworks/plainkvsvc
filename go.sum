@@ -49,6 +49,8 @@ github.com/narsilworks/plainkv v0.0.0-20220602081738-1d89cd2fc0e3 h1:fZQmdIPv9Yi
 github.com/narsilworks/plainkv v0.0.0-20220602081738-1d89cd2fc0e3/go.mod h1:vF1RTi2jFtV9/4m9N2n6X2hfJl4iBIOiP5LYC6vOCbc=
 github.com/narsilworks/plainkv v0.0.0-20220602091141-0702ee9f6f8d h1:1mUedM0v9Gu2MyElCtQuhstEWGlA9E/Nh8DhnNjk3mA=
 github.com/narsilworks/plainkv v0.0.0-20220602091141-0702ee9f6f8d/go.mod h1:vF1RTi2jFtV9/4m9N2n6X2hfJl4iBIOiP5LYC6vOCbc=
+github.com/narsilworks/plainkv v0.0.0-20220603024222-6701ba684c51 h1:PV7RcOCbQ7pDJ+xXu0UPeHY3iAMWxutKm+9e9gU8K2Y=
+github.com/narsilworks/plainkv v0.0.0-20220603024222-6701ba684c51/go.mod h1:vF1RTi2jFtV9/4m9N2n6X2hfJl4iBIOiP5LYC6vOCbc=
 github.com/nats-io/nats.go v1.13.1-0.20220407234302-dd91b86bc4f7 h1:Vhuf2n1sQ2ocGpJsst/XoRqEOPYfwzk18PFstwUVnHE=
 github.com/nats-io/nats.go v1.13.1-0.20220407234302-dd91b86bc4f7/go.mod h1:BPko4oXsySz4aSWeFgOHLZs3G4Jq4ZAyE6/zMCxRT6w=
 github.com/nats-io/nats.go v1.16.0 h1:zvLE7fGBQYW6MWaFaRdsgm9qT39PJDQoju+DS8KsO1g=
