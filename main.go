@@ -27,6 +27,7 @@ func main() {
 	sb.Version = "1.0"
 
 	sb.AddMime(".txt", "text/plain")
+	sb.Router.PathPrefix("/api/").Handler(PlainKVRequestHandler())
 
 	sb.Serve()
 }

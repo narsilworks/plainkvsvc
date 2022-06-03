@@ -1,6 +1,9 @@
 package main
 
 import (
+	"bytes"
+	"encoding/gob"
+	"fmt"
 	"net/http"
 
 	std "github.com/eaglebush/stdutil"
@@ -16,10 +19,6 @@ func PlainKVRequestHandler() http.Handler {
 			b    []byte
 		)
 
-		res := std.ResultAny{
-			Result: std.InitResult(),
-		}
-
 		// connection string
 		dsi := sb.Settings.GetDatabaseInfo("DEFAULT")
 
@@ -29,16 +28,16 @@ func PlainKVRequestHandler() http.Handler {
 		cmd := vars.Variables.FirstCommand()
 
 		if key == "" {
-			res.AddError("Please specify key")
-			sb.Respond(&res, &w, *r)
+			w.WriteHeader(500)
+			w.Write([]byte("Please specify key"))
 			return
 		}
 
 		pkv := plainkv.NewPlainKV(dsi.ConnectionString)
 		err = pkv.Open()
 		if err != nil {
-			res.AddErrorf("PlainKV client: %s", err)
-			sb.Respond(&res, &w, *r)
+			w.WriteHeader(500)
+			w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
 			return
 		}
 
@@ -46,40 +45,40 @@ func PlainKVRequestHandler() http.Handler {
 
 		if vars.IsGet() {
 
-			if cmd == "" {
-				b, err = pkv.Get(key)
-				if err != nil {
-					res.AddErrorf("PlainKV client: %s", err)
-					sb.Respond(&res, &w, *r)
-					return
-				}
-				res.Data = b
-			}
-
 			if cmd == "" || cmd == "mime" {
 				mime, err = pkv.GetMime(key)
 				if err != nil {
-					res.AddErrorf("PlainKV client: %s", err)
-					sb.Respond(&res, &w, *r)
+					w.WriteHeader(500)
+					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
 					return
 				}
+				w.Header().Set("Content-Type", mime)
+			}
+
+			if cmd == "" {
+				b, err = pkv.Get(key)
+				if err != nil {
+					w.WriteHeader(500)
+					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
+					return
+				}
+				w.Write(b)
 			}
 
 			if cmd == "list" {
 				s, err := pkv.ListKeys(key)
 				if err != nil {
-					res.AddErrorf("PlainKV client: %s", err)
-					sb.Respond(&res, &w, *r)
+					w.WriteHeader(500)
+					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
 					return
 				}
-				res.Data = s
-			}
 
-			if mime == "application/json" {
-				res.Return(std.OK)
-				sb.Respond(&res, &w, *r)
-			} else {
-				sb.RespondBytes(b, ".txt", &w, *r)
+				buf := &bytes.Buffer{}
+				gob.NewEncoder(buf).Encode(s)
+				bs := buf.Bytes()
+
+				w.Header().Set("Content-Type", "application/json")
+				w.Write(bs)
 			}
 		}
 
@@ -87,40 +86,29 @@ func PlainKVRequestHandler() http.Handler {
 			if cmd == "" {
 				err = pkv.Set(key, vars.Body)
 				if err != nil {
-					res.AddErrorf("PlainKV client: %s", err)
-					sb.Respond(&res, &w, *r)
+					w.WriteHeader(500)
+					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
 					return
 				}
 			}
 
-			if cmd == "" {
-				mime = r.Header.Get("Content-Type")
-			} else {
-				mime = string(vars.Body)
-			}
+			mime = r.Header.Get("Content-Type")
 
 			err = pkv.SetMime(key, mime)
 			if err != nil {
-				res.AddErrorf("PlainKV client: %s", err)
-				sb.Respond(&res, &w, *r)
+				w.WriteHeader(500)
+				w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
 				return
 			}
-
-			res.Return(std.OK)
-			sb.Respond(&res, &w, *r)
 		}
 
 		if vars.IsDelete() {
-
 			err = pkv.Del(key)
 			if err != nil {
-				res.AddErrorf("PlainKV client: %s", err)
-				sb.Respond(&res, &w, *r)
+				w.WriteHeader(500)
+				w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
 				return
 			}
-
-			res.Return(std.OK)
-			sb.Respond(&res, &w, *r)
 		}
 	})
 }
