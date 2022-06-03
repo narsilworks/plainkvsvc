@@ -109,3 +109,27 @@
 2022/06/03 11:42:17.949503 INFO: Shutting down server...
 2022/06/03 11:42:17.952065 INFO: HTTP server shutdown...
 2022/06/03 11:42:17.952065 INFO: Exiting service...
+2022/06/03 15:34:51.640096 PlainKV API 1.0
+2022/06/03 15:34:51.640607 Copyright © 2020-2021, NarsilWorks, Inc.
+2022/06/03 15:34:51.640607 INFO: Module instance id: 2A3cQNEPY9YkC3zBWnrTNpfLPBX
+2022/06/03 15:34:51.641636 INFO: Running in debug mode. Local address for CORS will be valid.
+2022/06/03 15:34:51.641636 INFO: Cache initialized successfully.
+2022/06/03 15:34:51.641636 INFO: Listening at 7473 since 2022-06-03 07:34:51.6395844 +0000 UTC...
+2022/06/03 17:19:40.803328 PlainKV API 1.0
+2022/06/03 17:19:40.803328 Copyright © 2020-2021, NarsilWorks, Inc.
+2022/06/03 17:19:40.803328 INFO: Module instance id: 2A3pAfee8MqFsx0Y6WVnrJkcOHW
+2022/06/03 17:19:40.804355 INFO: Running in debug mode. Local address for CORS will be valid.
+2022/06/03 17:19:40.804355 INFO: Cache initialized successfully.
+2022/06/03 17:19:40.804355 INFO: Listening at 7473 since 2022-06-03 09:19:40.8028178 +0000 UTC...
+2022/06/03 17:20:50.253519 PlainKV API 1.0
+2022/06/03 17:20:50.254029 Copyright © 2020-2021, NarsilWorks, Inc.
+2022/06/03 17:20:50.254029 INFO: Module instance id: 2A3pJRJ8a8gu6TLDDynTQsBXk9o
+2022/06/03 17:20:50.254543 INFO: Running in debug mode. Local address for CORS will be valid.
+2022/06/03 17:20:50.255054 INFO: Cache initialized successfully.
+2022/06/03 17:20:50.255054 INFO: Listening at 7473 since 2022-06-03 09:20:50.2530038 +0000 UTC...
+2022/06/03 17:27:37.976715 PlainKV API 1.0
+2022/06/03 17:27:37.977231 Copyright © 2020-2021, NarsilWorks, Inc.
+2022/06/03 17:27:37.977231 INFO: Module instance id: 2A3q8abyTqrQDvIgA66U0X5xLPw
+2022/06/03 17:27:37.978260 INFO: Running in debug mode. Local address for CORS will be valid.
+2022/06/03 17:27:37.978260 INFO: Cache initialized successfully.
+2022/06/03 17:27:37.978260 INFO: Listening at 7473 since 2022-06-03 09:27:37.9761997 +0000 UTC...

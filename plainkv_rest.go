@@ -1,8 +1,7 @@
 package main
 
 import (
-	"bytes"
-	"encoding/gob"
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -73,11 +72,20 @@ func PlainKVRequestHandler() http.Handler {
 					return
 				}
 
-				buf := &bytes.Buffer{}
-				gob.NewEncoder(buf).Encode(s)
-				bs := buf.Bytes()
-
 				w.Header().Set("Content-Type", "application/json")
+
+				if len(s) == 0 {
+					w.Write([]byte("[]"))
+					return
+				}
+
+				bs, err := json.Marshal(s)
+				if err != nil {
+					w.WriteHeader(500)
+					w.Write([]byte(fmt.Sprintf("JSON Marshal: %s", err)))
+					return
+				}
+
 				w.Write(bs)
 			}
 		}
