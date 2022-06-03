@@ -30,7 +30,7 @@ do
     chmod +755 "$dest"
 
     # Copy api to destination
-    cp api "$dest"
+    cp plainkvsvc "$dest"
 
     # Copy config if it does not exist
     #cp config.json "$dest"
