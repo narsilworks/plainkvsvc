@@ -22,7 +22,7 @@ func PlainKVRequestHandler() http.Handler {
 		dsi := sb.Settings.GetDatabaseInfo("DEFAULT")
 
 		// Request variables
-		vars := std.GetRequestVars(r, *sb.Settings.JWTSecret)
+		vars, _ := std.GetRequestVars(r, *sb.Settings.JWTSecret, validate_token_times)
 		key := vars.Variables.Key
 		cmd := vars.Variables.FirstCommand()
 
