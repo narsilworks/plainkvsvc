@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	std "github.com/eaglebush/stdutil"
 	"github.com/narsilworks/plainkv"
@@ -16,6 +17,7 @@ func PlainKVRequestHandler() http.Handler {
 			mime string
 			err  error
 			b    []byte
+			tlly int
 		)
 
 		// connection string
@@ -28,6 +30,7 @@ func PlainKVRequestHandler() http.Handler {
 
 		qs := vars.Variables.QueryString
 		bucket, _ := qs.String("bucket")
+		offset, _ := qs.Int("offset")
 
 		writeError := func(err error) {
 			w.WriteHeader(500)
@@ -50,6 +53,7 @@ func PlainKVRequestHandler() http.Handler {
 		}
 		defer pkv.Close()
 
+		// Get method
 		if vars.IsGet() {
 
 			if cmd == "" {
@@ -66,6 +70,8 @@ func PlainKVRequestHandler() http.Handler {
 					return
 				}
 				w.Header().Set("Content-Type", mime)
+
+				return
 			}
 
 			if cmd == "list" {
@@ -76,7 +82,6 @@ func PlainKVRequestHandler() http.Handler {
 				}
 
 				w.Header().Set("Content-Type", "application/json")
-
 				if len(s) == 0 {
 					w.Write([]byte("[]"))
 					return
@@ -89,29 +94,76 @@ func PlainKVRequestHandler() http.Handler {
 				}
 
 				w.Write(bs)
+				return
+			}
+
+			if cmd == "tally" {
+				if tlly, err = pkv.Tally(key, offset); err != nil {
+					writeError(err)
+					return
+				}
+
+				w.Write([]byte(strconv.Itoa(tlly)))
+				return
 			}
 		}
 
 		if vars.IsPostOrPut() {
-			if cmd == "" {
-				if err = pkv.Set(key, vars.Body); err != nil {
-					writeError(err)
+			if vars.IsPost() {
+				if cmd == "" {
+					if err = pkv.Set(key, vars.Body); err != nil {
+						writeError(err)
+						return
+					}
+				}
+
+				if cmd == "" || cmd == "mime" {
+					mime = r.Header.Get("Content-Type")
+					if mime != "" {
+						if err = pkv.SetMime(key, mime); err != nil {
+							writeError(err)
+						}
+					}
+
 					return
 				}
 			}
 
-			mime = r.Header.Get("Content-Type")
-			if mime != "" {
-				if err = pkv.SetMime(key, mime); err != nil {
-					writeError(err)
+			if vars.IsPut() {
+				if cmd == "incr" {
+					if tlly, err = pkv.Incr(key); err != nil {
+						writeError(err)
+						return
+					}
+
+					w.Write([]byte(strconv.Itoa(tlly)))
+					return
+				}
+
+				if cmd == "decr" {
+					if tlly, err = pkv.Incr(key); err != nil {
+						writeError(err)
+						return
+					}
+
+					w.Write([]byte(strconv.Itoa(tlly)))
 					return
 				}
 			}
 		}
 
 		if vars.IsDelete() {
-			if err = pkv.Del(key); err != nil {
-				writeError(err)
+			if cmd == "" {
+				if err = pkv.Del(key); err != nil {
+					writeError(err)
+				}
+				return
+			}
+
+			if cmd == "tally" {
+				if err = pkv.Reset(key); err != nil {
+					writeError(err)
+				}
 				return
 			}
 		}
