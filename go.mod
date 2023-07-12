@@ -32,7 +32,7 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/magefile/mage v1.15.0 // indirect
-	github.com/narsilworks/plainkv v0.0.0-20230712030456-4d460a25b7ae
+	github.com/narsilworks/plainkv v0.0.0-20230712035435-630a2c11f79a
 	github.com/nats-io/nats.go v1.27.1 // indirect
 	github.com/nats-io/nkeys v0.4.4 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect

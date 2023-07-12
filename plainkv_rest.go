@@ -39,7 +39,7 @@ func PlainKVRequestHandler() http.Handler {
 			return
 		}
 
-		pkv := plainkv.NewPlainKV(dsi.ConnectionString)
+		pkv := plainkv.NewPlainKV(dsi.ConnectionString, false)
 		if bucket != "" {
 			pkv.SetBucket(bucket)
 		}
@@ -48,7 +48,6 @@ func PlainKVRequestHandler() http.Handler {
 			writeError(err)
 			return
 		}
-
 		defer pkv.Close()
 
 		if vars.IsGet() {

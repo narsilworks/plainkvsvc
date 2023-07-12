@@ -50,8 +50,8 @@ github.com/minio/highwayhash v1.0.2 h1:Aak5U0nElisjDCfPSG79Tgzkn2gl66NxOMspRrKnA
 github.com/minio/highwayhash v1.0.2/go.mod h1:BQskDq+xkJ12lmlUUi7U0M5Swg3EWR+dLTk+kldvVxY=
 github.com/narsilworks/livenote v0.0.0-20221005012144-3207cca02df2 h1:YoYxdGa5+glz2xH4GJE0FjnzLoEPTihgz5AnVs+0ZC8=
 github.com/narsilworks/livenote v0.0.0-20221005012144-3207cca02df2/go.mod h1:7Et2D3zXgcmjA5uzDXPJ86NzaDWrvL4B58KeoV1oDpc=
-github.com/narsilworks/plainkv v0.0.0-20230712030456-4d460a25b7ae h1:ilwwCHKITEkSTMydxuLlolaMzYS1nbAfDr+1gUlkxjQ=
-github.com/narsilworks/plainkv v0.0.0-20230712030456-4d460a25b7ae/go.mod h1:fr6ZjB0CXoAHChR1VWZmpbvjJVevzVndgQFNL2jUxmM=
+github.com/narsilworks/plainkv v0.0.0-20230712035435-630a2c11f79a h1:/NhspbsBesJTG2nMFS5myzXYZfz7QiWSapw+8pg6ROU=
+github.com/narsilworks/plainkv v0.0.0-20230712035435-630a2c11f79a/go.mod h1:w9BrblehshIbZh6hCEt02YFyP9QIuKHNaCb/9pPMau0=
 github.com/nats-io/jwt/v2 v2.3.0 h1:z2mA1a7tIf5ShggOFlR1oBPgd6hGqcDYsISxZByUzdI=
 github.com/nats-io/jwt/v2 v2.3.0/go.mod h1:0tqz9Hlu6bCBFLWAASKhE5vUA4c24L9KPUUgvwumE/k=
 github.com/nats-io/nats-server/v2 v2.9.14 h1:n2GscWVgXpA14vQSRP/MM1SGi4wyazR9l19/gWxqgXQ=
