@@ -141,7 +141,7 @@ func PlainKVRequestHandler() http.Handler {
 				}
 
 				if cmd == "decr" {
-					if tlly, err = pkv.Incr(key); err != nil {
+					if tlly, err = pkv.Decr(key); err != nil {
 						writeError(err)
 						return
 					}
