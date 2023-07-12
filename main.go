@@ -96,14 +96,14 @@ func JWTMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		if !ji.ValidAuthToken {
+		if !ji.Valid {
 			w.WriteHeader(http.StatusForbidden)
 			w.Write([]byte(`Invalid access token`))
 			return
 		}
 
 		if validate_token_app {
-			if ji.TokenApplicationID != APPLICATION_ID {
+			if ji.ApplicationID != APPLICATION_ID {
 				w.WriteHeader(http.StatusForbidden)
 				w.Write([]byte(`Invalid application from token`))
 				return

@@ -26,17 +26,26 @@ func PlainKVRequestHandler() http.Handler {
 		key := vars.Variables.Key
 		cmd := vars.Variables.FirstCommand()
 
-		if key == "" {
+		qs := vars.Variables.QueryString
+		bucket, _ := qs.String("bucket")
+
+		writeError := func(err error) {
 			w.WriteHeader(500)
-			w.Write([]byte("Please specify key"))
+			w.Write([]byte(fmt.Sprintf("PlainKV server: %s", err)))
+		}
+
+		if key == "" {
+			writeError(fmt.Errorf("please specify key"))
 			return
 		}
 
 		pkv := plainkv.NewPlainKV(dsi.ConnectionString)
-		err = pkv.Open()
-		if err != nil {
-			w.WriteHeader(500)
-			w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
+		if bucket != "" {
+			pkv.SetBucket(bucket)
+		}
+
+		if err = pkv.Open(); err != nil {
+			writeError(err)
 			return
 		}
 
@@ -44,31 +53,26 @@ func PlainKVRequestHandler() http.Handler {
 
 		if vars.IsGet() {
 
-			if cmd == "" || cmd == "mime" {
-				mime, err = pkv.GetMime(key)
-				if err != nil {
-					w.WriteHeader(500)
-					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
-					return
-				}
-				w.Header().Set("Content-Type", mime)
-			}
-
 			if cmd == "" {
-				b, err = pkv.Get(key)
-				if err != nil {
-					w.WriteHeader(500)
-					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
+				if b, err = pkv.Get(key); err != nil {
+					writeError(err)
 					return
 				}
 				w.Write(b)
 			}
 
+			if cmd == "" || cmd == "mime" {
+				if mime, err = pkv.GetMime(key); err != nil {
+					writeError(err)
+					return
+				}
+				w.Header().Set("Content-Type", mime)
+			}
+
 			if cmd == "list" {
 				s, err := pkv.ListKeys(key)
 				if err != nil {
-					w.WriteHeader(500)
-					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
+					writeError(err)
 					return
 				}
 
@@ -81,8 +85,7 @@ func PlainKVRequestHandler() http.Handler {
 
 				bs, err := json.Marshal(s)
 				if err != nil {
-					w.WriteHeader(500)
-					w.Write([]byte(fmt.Sprintf("JSON Marshal: %s", err)))
+					writeError(err)
 					return
 				}
 
@@ -92,29 +95,24 @@ func PlainKVRequestHandler() http.Handler {
 
 		if vars.IsPostOrPut() {
 			if cmd == "" {
-				err = pkv.Set(key, vars.Body)
-				if err != nil {
-					w.WriteHeader(500)
-					w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
+				if err = pkv.Set(key, vars.Body); err != nil {
+					writeError(err)
 					return
 				}
 			}
 
 			mime = r.Header.Get("Content-Type")
-
-			err = pkv.SetMime(key, mime)
-			if err != nil {
-				w.WriteHeader(500)
-				w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
-				return
+			if mime != "" {
+				if err = pkv.SetMime(key, mime); err != nil {
+					writeError(err)
+					return
+				}
 			}
 		}
 
 		if vars.IsDelete() {
-			err = pkv.Del(key)
-			if err != nil {
-				w.WriteHeader(500)
-				w.Write([]byte(fmt.Sprintf("PlainKV client: %s", err)))
+			if err = pkv.Del(key); err != nil {
+				writeError(err)
 				return
 			}
 		}
