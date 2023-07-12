@@ -16,11 +16,6 @@
             "ConnectionString" : "sample:password101@tcp(192.168.1.129)/kvdb",
             "DriverName" : "mysql",
             "StorageType": "SERVER",
-            "SequenceGenerator" : {
-                "UpsertQuery" : "",
-                "ResultQuery" : "DECLARE @surrogatekey INT; EXEC ssh_getnextnumber '{SequenceName}', @surrogatekey OUTPUT; SELECT @surrogatekey;",
-                "NamePlaceHolder": "{SequenceName}"
-            },
             "UTCDateFunction": "UTC_TIMESTAMP()",
             "DateFunction": "NOW()",
             "ParameterPlaceholder": "?",

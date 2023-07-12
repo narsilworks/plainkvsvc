@@ -14,7 +14,7 @@ Group=plainkvsvc
 WorkingDirectory=/usr/local/services/plainkvsvc/api/{0}
 
 ; Always set "-root" to something safe in case it gets forgotten in the traefikfile.
-ExecStart=/usr/local/services/plainkvsvc/api/{0}/plainkvsvc /port=1530{1}
+ExecStart=/usr/local/services/plainkvsvc/api/{0}/plainkvsvc --port=1530{1}
 
 ; Limit the number of file descriptors; see `man systemd.exec` for more limit settings.
 LimitNOFILE=1048576
